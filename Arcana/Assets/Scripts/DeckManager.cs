@@ -71,7 +71,8 @@ public class DeckManager : MonoBehaviour
             d.addCard(c);
         }
         for(int i = 0; i < handSize; i++) {
-            HandManager.addToHand(d.drawCard());
+            Card curr = d.drawCard();
+            HandManager.addToHand(curr);
         }
     }
 }
