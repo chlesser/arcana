@@ -9,6 +9,7 @@ public class DeckManager : MonoBehaviour
     HandManager HandManager;
     public class Deck{
         private List<Card> cards = new List<Card>();
+        private List<Card> discard = new List<Card>();
 
         public void addCard(Card c) {
             cards.Add(c);
@@ -29,6 +30,15 @@ public class DeckManager : MonoBehaviour
             Card c = cards[i];
             cards.RemoveAt(i);
             return c;
+        }
+        public void reshuffle() {
+            foreach(Card c in discard) {
+                cards.Add(c);
+                discard.Remove(c);
+            }
+        }
+        public void discardCard(Card c) {
+            discard.Add(c);
         }
     }
     public class Card{
@@ -59,12 +69,9 @@ public class DeckManager : MonoBehaviour
         for(int i = 0; i < deckSize; i++) {
             Card c = new Card(rand.Next(1, 10), rand.Next(1, 5));
             d.addCard(c);
-            Debug.Log(d.ToString());
         }
         for(int i = 0; i < handSize; i++) {
             HandManager.addToHand(d.drawCard());
         }
-        //this will be replaced with a function that that moves the cards in the editor
-        Debug.Log(d.ToString());
     }
 }
