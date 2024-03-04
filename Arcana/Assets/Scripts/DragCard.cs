@@ -18,6 +18,11 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
         AddPhysics2DRaycaster();
         thisCollider = this.gameObject.GetComponent<Collider2D>();
         playAreaCollider = GameObject.FindGameObjectWithTag("PlayArea").GetComponent<Collider2D>();
+        /*foreach (GameObject go in GameObject.FindGameObjectsWithTag("PlayArea")) {
+            if (go.GetComponent<Collider2D>() != null) {
+                playAreaCollider = go.GetComponent<Collider2D>();
+            }
+        } */
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -42,7 +47,6 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
             this.gameObject.transform.GetChild(0).GetComponent<Renderer>().sortingOrder = OriginalOrder + 1;
             clicked = false;
         }
-        
     }
 
     private void AddPhysics2DRaycaster()
@@ -53,7 +57,7 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
             Camera.main.gameObject.AddComponent<Physics2DRaycaster>();
         }
     }
-
+    // Everything Else
     void Update()
     {
         if(clicked) {
@@ -63,6 +67,7 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
             this.gameObject.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
         }
     }
+    // Physics
     void FixedUpdate()
     {
         if (thisCollider != null && playAreaCollider != null) {
