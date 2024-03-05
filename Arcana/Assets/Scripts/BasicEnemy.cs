@@ -8,7 +8,7 @@ public class BasicEnemy : MonoBehaviour
     void Awake()
     {
         enemy = this.gameObject.GetComponent<Enemy>();
-        enemy.setHealth(5);
+        enemy.setMaxHealth(5);
         Debug.Log("Enemy health: " + enemy.getHealth());
     }
 

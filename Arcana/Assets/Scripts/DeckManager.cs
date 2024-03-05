@@ -9,6 +9,7 @@ public class DeckManager : MonoBehaviour
     HandManager HandManager;
     public class Deck{
         private List<Card> cards = new List<Card>();
+        private List<Card> hand = new List<Card>();
         private List<Card> discard = new List<Card>();
 
         public void addCard(Card c) {
@@ -28,6 +29,7 @@ public class DeckManager : MonoBehaviour
             var rand = new System.Random();
             int i = rand.Next(cards.Count);
             Card c = cards[i];
+            hand.Add(c);
             cards.RemoveAt(i);
             return c;
         }
