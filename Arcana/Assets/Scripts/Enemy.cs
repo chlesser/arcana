@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] FloatingHealthBar healthBar;
     private int maxHealth;
     private int currentHealth;
+    private int attack;
 
     public Enemy() {
         maxHealth = 5;
@@ -19,6 +20,12 @@ public class Enemy : MonoBehaviour
     }
     public int getMaxHealth() {
         return maxHealth;
+    }
+    public void setAttack(int p) {
+        attack = p;
+    }
+    public int getAttack() {
+        return attack;
     }
     public void setMaxHealth(int h) {
         maxHealth = h;

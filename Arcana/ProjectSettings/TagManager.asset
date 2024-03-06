@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayArea
+  - DeckManager
+  - Enemy
+  - Card
   layers:
   - Default
   - TransparentFX
@@ -53,4 +56,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 3872319155
+    locked: 0
+  - name: Grabbed
+    uniqueID: 718038535
     locked: 0

@@ -4,33 +4,55 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private int health;
+    [SerializeField] FloatingHealthBar healthBar;
+    private int maxHealth;
+    private int currentHealth;
+    private int attack;
 
     public Player() {
-        health = 10;
+        maxHealth = 5;
     }
     public Player(int h) {
-        health = h;
+        maxHealth = h;
     }
     public int getHealth() {
-        return health;
+        return currentHealth;
     }
-    public void setHealth(int h) {
-        health = h;
+    public void setAttack(int p) {
+        attack = p;
+    }
+    public int getAttack() {
+        return attack;
+    }
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+    public void setMaxHealth(int h) {
+        maxHealth = h;
     }
     public void takeDamage(int d) {
-        health -= d;
+        currentHealth -= d;
+        healthBar.UpdateHealthBar(currentHealth, maxHealth);
     }
     public void heal(int h) {
-        health += h;
+        currentHealth += h;
+        if (currentHealth > maxHealth) {
+            currentHealth = maxHealth;
+        }
     }
     public void die() {
         Destroy(gameObject);
     }
-    public void attackEnemy(Enemy e) {
+    public void attackPlayer(Enemy e) {
         e.takeDamage(1);
     }
-    public void attackEnemy(Enemy e, int d) {
+    public void attackPlayer(Enemy e, int d) {
         e.takeDamage(d);
+    }
+    void Awake()
+    {
+        healthBar = this.gameObject.GetComponentInChildren<FloatingHealthBar>();
+        currentHealth = maxHealth;
+        healthBar.UpdateHealthBar(currentHealth, maxHealth);
     }
 }
