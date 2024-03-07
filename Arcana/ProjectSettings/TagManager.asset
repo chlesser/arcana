@@ -8,6 +8,7 @@ TagManager:
   - DeckManager
   - Enemy
   - Card
+  - Audio
   layers:
   - Default
   - TransparentFX

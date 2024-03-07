@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour
         if (currentHealth > maxHealth) {
             currentHealth = maxHealth;
         }
+        healthBar.UpdateHealthBar(currentHealth, maxHealth);
     }
     public void die() {
         Destroy(gameObject);
