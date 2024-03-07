@@ -47,6 +47,7 @@ public class DeckManager : MonoBehaviour
         public void playCard(Card c) {
             int i = hand.IndexOf(c);
             hand[i].effect(e, p);
+            hand[i].playSound();
             discard.Add(c);
             hand[i].setPower(0);
             hand[i].setType(0);
@@ -79,11 +80,13 @@ public class DeckManager : MonoBehaviour
         public void setPlayer(Player pl) {
             p = pl;
         }
+        
     }
     public Deck d = new Deck();
     public class Card{
         private int power;
         private int type;
+        private AudioSource sound;
 
         public Card() {
             power = 0;
@@ -92,6 +95,12 @@ public class DeckManager : MonoBehaviour
         public Card(int p, int t) {
             power = p;
             type = t;
+            sound = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();
+        }
+        public Card(int p, int t, AudioSource s) {
+            power = p;
+            type = t;
+            sound = s;
         }
         public int getPower() {
             return power;
@@ -105,6 +114,13 @@ public class DeckManager : MonoBehaviour
         public void setType(int t) {
             type = t;
         }
+        public void playSound() {
+            //play sound
+            sound.Play();
+        }
+        public void setSound(AudioSource s) {
+            sound = s;
+        }  
         public void effect(Enemy e, Player p) {
             if(type == 1) {
                 p.heal(power);
