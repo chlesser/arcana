@@ -127,7 +127,7 @@ public class DeckManager : MonoBehaviour
                 Debug.Log("Heal");
             }
             else if(type == 2) {
-                e.takeDamage(power);
+                e.takeDamage(power + p.getAttack());
                 Debug.Log("Damage");
             }
             else if(type == 3) {
