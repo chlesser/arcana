@@ -21,14 +21,20 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
     Collider2D playAreaCollider;
     Collider2D thisCollider;
 
+    //accesses the only useful part of the card. use for rendering and collision
+    GameObject image;
+    GameObject number;
+
     private void Awake()
     {
+        image = this.gameObject.transform.GetChild(0).gameObject;
+        number = this.gameObject.transform.GetChild(0).GetChild(0).gameObject;
         AddPhysics2DRaycaster();
-        thisCollider = this.gameObject.GetComponent<Collider2D>();
+        thisCollider = image.GetComponent<Collider2D>();
         playAreaCollider = GameObject.FindGameObjectWithTag("PlayArea").GetComponent<Collider2D>();
         DeckManager = GameObject.FindGameObjectWithTag("DeckManager").GetComponent<DeckManager>();
         OriginalPosition = transform.position;
-        OriginalOrder = this.gameObject.GetComponent<Renderer>().sortingOrder;
+        OriginalOrder = image.GetComponent<Renderer>().sortingOrder;
 
         /*foreach (GameObject go in GameObject.FindGameObjectsWithTag("PlayArea")) {
             if (go.GetComponent<Collider2D>() != null) {
@@ -42,19 +48,19 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
         if(!clicked && !played) {
             // Çard hasn't been clicked yet
             OriginalPosition = transform.position;
-            OriginalOrder = this.gameObject.GetComponent<Renderer>().sortingOrder;
+            OriginalOrder = image.GetComponent<Renderer>().sortingOrder;
             clicked = true;
-            this.gameObject.GetComponent<Renderer>().sortingOrder = this.gameObject.transform.parent.GetComponent<HandManager>().getCardNum() * 2 + 2;
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().sortingOrder = this.gameObject.transform.parent.GetComponent<HandManager>().getCardNum() * 2 + 3;
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Grabbed");
-            this.gameObject.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Grabbed");
+            image.GetComponent<Renderer>().sortingOrder = this.gameObject.transform.parent.GetComponent<HandManager>().getCardNum() * 2 + 2;
+            number.GetComponent<Renderer>().sortingOrder = this.gameObject.transform.parent.GetComponent<HandManager>().getCardNum() * 2 + 3;
+            number.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Grabbed");
+            image.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Grabbed");
         }  //nothing
         else if (clicked && playable && !Input.GetMouseButtonDown(1)) {
             // Card has been clicked and is playable
-            this.gameObject.GetComponent<Renderer>().sortingOrder = OriginalOrder;
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().sortingOrder = OriginalOrder + 1;
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
-            this.gameObject.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
+            image.GetComponent<Renderer>().sortingOrder = OriginalOrder;
+            number.GetComponent<Renderer>().sortingOrder = OriginalOrder + 1;
+            number.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
+            image.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
             clicked = false;
             this.gameObject.transform.position = GameObject.FindGameObjectWithTag("PlayArea").transform.position;
             played = true;
@@ -65,10 +71,10 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
             // Card has been clicked and is not playable
             played = false;
             this.gameObject.transform.position = OriginalPosition;
-            this.gameObject.GetComponent<Renderer>().sortingOrder = OriginalOrder;
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().sortingOrder = OriginalOrder + 1;
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
-            this.gameObject.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
+            image.GetComponent<Renderer>().sortingOrder = OriginalOrder;
+            number.GetComponent<Renderer>().sortingOrder = OriginalOrder + 1;
+            number.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
+            image.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
             clicked = false;
         }
     }

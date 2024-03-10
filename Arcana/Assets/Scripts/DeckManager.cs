@@ -153,6 +153,7 @@ public class DeckManager : MonoBehaviour
             d.addCard(c);
         }
         StartCoroutine(handDraw());
+        DontDestroyOnLoad(this.gameObject);
     }
     IEnumerator handDraw() {
         for(int i = 0; i < handSize; i++) {

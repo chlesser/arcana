@@ -13,6 +13,7 @@ public class HandManager : MonoBehaviour
     public float gapSize;
     public int shownCards;
     DeckManager DeckManager;
+    AudioSource sound;
     void Awake() {
         DeckManager = this.transform.parent.GetComponentInChildren<DeckManager>();
         pos = this.transform.position;
@@ -21,6 +22,7 @@ public class HandManager : MonoBehaviour
         handOffset = 0f;
         cardNum = 0;
         shownCards = 0;
+        sound = this.gameObject.transform.GetComponentInChildren<AudioSource>();
     }
     public int getCardNum() {
         return cardNum;
@@ -34,8 +36,8 @@ public class HandManager : MonoBehaviour
         gameObject.transform.position = handPos;
         currentCard.GetComponentInChildren<TMP_Text>().text = c.getPower().ToString();
         //order sort
-        currentCard.GetComponent<Renderer>().sortingOrder = (cardNum * 2);
-        currentCard.transform.GetChild(0).GetComponent<Renderer>().sortingOrder = (cardNum * 2 + 1);
+        currentCard.transform.GetChild(0).GetComponent<Renderer>().sortingOrder = (cardNum * 2);
+        currentCard.transform.GetChild(0).GetChild(0).GetComponent<Renderer>().sortingOrder = (cardNum * 2 + 1);
         currentCard.transform.SetParent(this.transform);
         //ID Provider
         currentCard.GetComponent<DragCard>().c = c;
@@ -46,6 +48,7 @@ public class HandManager : MonoBehaviour
         //updates poisitoning
         pos = new Vector3(offset, this.transform.position.y, this.transform.position.z);
         handPos = new Vector3(handOffset, this.transform.position.y, this.transform.position.z);
+        sound.Play();
     }
     public int checkCardNum() {
         for(int i = 0; i < DeckManager.d.getHandSize() - 1; i++) {
