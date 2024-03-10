@@ -6,15 +6,19 @@ using TMPro;
 public class HandManager : MonoBehaviour
 {
     Vector3 pos;  
-    int offset;
+    Vector3 handPos;
+    float offset;
+    float handOffset;
     int cardNum;
-    public int gapSize;
+    public float gapSize;
     public int shownCards;
     DeckManager DeckManager;
     void Awake() {
         DeckManager = this.transform.parent.GetComponentInChildren<DeckManager>();
         pos = this.transform.position;
-        offset = 0;
+        handPos = this.transform.position;
+        offset = 0f;
+        handOffset = 0f;
         cardNum = 0;
         shownCards = 0;
     }
@@ -25,7 +29,9 @@ public class HandManager : MonoBehaviour
         Debug.Log("CardNum: " + cardNum);
         //card setup
         GameObject currentCard = translateCard(c);
+        //card positioning
         currentCard.transform.position = pos;
+        gameObject.transform.position = handPos;
         currentCard.GetComponentInChildren<TMP_Text>().text = c.getPower().ToString();
         //order sort
         currentCard.GetComponent<Renderer>().sortingOrder = (cardNum * 2);
@@ -37,7 +43,9 @@ public class HandManager : MonoBehaviour
         shownCards++;
         cardNum = checkCardNum();
         offsetDetermind();
+        //updates poisitoning
         pos = new Vector3(offset, this.transform.position.y, this.transform.position.z);
+        handPos = new Vector3(handOffset, this.transform.position.y, this.transform.position.z);
     }
     public int checkCardNum() {
         for(int i = 0; i < DeckManager.d.getHandSize() - 1; i++) {
@@ -68,10 +76,13 @@ public class HandManager : MonoBehaviour
         }
     }
     void offsetDetermind() {
+        /* Antiquated wierd method
         if(cardNum % 2 == 0) {
             offset = (((cardNum + 1)/ 2) * -gapSize);
         } else {
             offset = (((cardNum + 1)/ 2) * gapSize);
-        }
+        } */
+        offset += (gapSize - 1.5f);
+        handOffset -= (gapSize / 2f);
     }
 }

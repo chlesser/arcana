@@ -152,8 +152,14 @@ public class DeckManager : MonoBehaviour
             Card c = new Card(rand.Next(1, 10), rand.Next(1, 5));
             d.addCard(c);
         }
+        StartCoroutine(handDraw());
+    }
+    IEnumerator handDraw() {
         for(int i = 0; i < handSize; i++) {
+            Debug.Log($"Started at {Time.time}, waiting for {1} seconds");
             d.drawCard(HandManager, handSize);
+            yield return new WaitForSeconds(1f);
+            Debug.Log($"Ended at {Time.time}"); 
         }
     }
 }
