@@ -162,5 +162,6 @@ public class DeckManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             Debug.Log($"Ended at {Time.time}"); 
         }
+        HandManager.cardsCanBeClicked = true;
     }
 }

@@ -14,6 +14,7 @@ public class HandManager : MonoBehaviour
     public int shownCards;
     DeckManager DeckManager;
     AudioSource sound;
+    public bool cardsCanBeClicked;
     void Awake() {
         DeckManager = this.transform.parent.GetComponentInChildren<DeckManager>();
         pos = this.transform.position;
@@ -23,6 +24,7 @@ public class HandManager : MonoBehaviour
         cardNum = 0;
         shownCards = 0;
         sound = this.gameObject.transform.GetComponentInChildren<AudioSource>();
+        cardsCanBeClicked = false;
     }
     public int getCardNum() {
         return cardNum;

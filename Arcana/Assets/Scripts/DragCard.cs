@@ -45,7 +45,10 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(!clicked && !played) {
+        if(!this.transform.parent.GetComponent<HandManager>().cardsCanBeClicked) {
+            return;
+        }
+        else if(!clicked && !played) {
             // Çard hasn't been clicked yet
             OriginalPosition = transform.position;
             OriginalOrder = image.GetComponent<Renderer>().sortingOrder;

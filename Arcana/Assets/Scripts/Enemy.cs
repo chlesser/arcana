@@ -15,6 +15,10 @@ public class Enemy : MonoBehaviour
     public Enemy(int h) {
         maxHealth = h;
     }
+    public Enemy(int h, int p) {
+        maxHealth = h;
+        attack = p;
+    }
     public int getHealth() {
         return currentHealth;
     }
