@@ -14,7 +14,7 @@ public class FloatingHealthBar : MonoBehaviour
     {
         slider.value = (float)health / (float)maxHealth;
     }
-    void Awake()
+    void Start()
     {
         slider = this.gameObject.GetComponent<Slider>();
         camera = Camera.main;

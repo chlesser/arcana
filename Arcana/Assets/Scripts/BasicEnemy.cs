@@ -5,11 +5,17 @@ using UnityEngine;
 public class BasicEnemy : MonoBehaviour
 {
     Enemy enemy;
+    Player player;
     void Awake()
     {
         enemy = this.gameObject.GetComponent<Enemy>();
-        enemy.setMaxHealth(20);
-        Debug.Log("Enemy health: " + enemy.getHealth());
+        player = GameObject.Find("Player").GetComponent<Player>();
+        enemy.setMaxHealth(5);
+        enemy.setAttack(1);
+    }
+    public void play()
+    {
+        enemy.attackPlayer(player);
     }
 
 }

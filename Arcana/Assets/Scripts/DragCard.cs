@@ -138,7 +138,9 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
         }
     } */
     void endTurn() {
-        DeckManager.d.playCard(c);
+        DeckManager.d.playCard(c, this.transform.parent.GetComponent<HandManager>());
+        DeckManager.d.drawCard(this.transform.parent.GetComponent<HandManager>(), DeckManager.deckSize);
+        this.transform.parent.GetComponent<HandManager>().TurnEnd();
         Destroy(this.gameObject);
     }
 }

@@ -8,9 +8,10 @@ public class Player : MonoBehaviour
     private int maxHealth;
     private int currentHealth;
     private int attack;
+    GameManager gameManager;
 
     public Player() {
-        maxHealth = 5;
+        maxHealth = 2;
     }
     public Player(int h) {
         maxHealth = h;
@@ -33,12 +34,20 @@ public class Player : MonoBehaviour
     public void takeDamage(int d) {
         currentHealth -= d;
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        if (currentHealth <= 0) {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("Card")) {
+                Destroy(g);
+            }
+            gameManager.Lost();
+        }
+        Debug.Log("takeDamageTaken");
     }
     public void heal(int h) {
         currentHealth += h;
         if (currentHealth > maxHealth) {
-            currentHealth = maxHealth;
+            maxHealth = currentHealth;
         }
+        healthBar.UpdateHealthBar(currentHealth, maxHealth);
     }
     public void die() {
         Destroy(gameObject);
@@ -54,5 +63,7 @@ public class Player : MonoBehaviour
         healthBar = this.gameObject.GetComponentInChildren<FloatingHealthBar>();
         currentHealth = maxHealth;
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        DontDestroyOnLoad(this.gameObject);
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 }

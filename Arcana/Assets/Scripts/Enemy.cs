@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     private int maxHealth;
     private int currentHealth;
     private int attack;
+    BasicEnemy basicEnemy;
+    public HandManager HandManager;
 
     public Enemy() {
         maxHealth = 5;
@@ -37,6 +39,7 @@ public class Enemy : MonoBehaviour
     public void takeDamage(int d) {
         currentHealth -= d;
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        StartCoroutine(redFade(0.1f));
     }
     public void heal(int h) {
         currentHealth += h;
@@ -49,7 +52,7 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
     public void attackPlayer(Player p) {
-        p.takeDamage(1);
+        p.takeDamage(attack);
     }
     public void attackPlayer(Player p, int d) {
         p.takeDamage(d);
@@ -59,5 +62,32 @@ public class Enemy : MonoBehaviour
         healthBar = this.gameObject.GetComponentInChildren<FloatingHealthBar>();
         currentHealth = maxHealth;
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        basicEnemy = this.gameObject.GetComponent<BasicEnemy>();
+        HandManager = GameObject.FindGameObjectWithTag("GameController").transform.GetComponentInChildren<HandManager>();
+        HandManager.setEnemy(this.gameObject.GetComponent<Enemy>());
+    }
+    public void takeTurn() {
+        basicEnemy.play();
+    }
+    public void playAttackAnimation() {
+        Debug.Log("There");
+        this.gameObject.GetComponent<Animator>().Play("BasicEnemy");
+    }
+    public void animationIsPlaying() {
+        this.gameObject.GetComponent<Animator>().SetBool("Playing", true);
+    }
+    public void animationIsNotPlaying() {
+        this.gameObject.GetComponent<Animator>().SetBool("Playing", false);
+    }
+    IEnumerator redFade(float time) {
+        for(int i = 0; i < 5; i++) {
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+            yield return new WaitForSeconds(time);
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            yield return new WaitForSeconds(time);
+        }
+    }
+    IEnumerator purpleFade(float time) {
+        yield return new WaitForSeconds(time);
     }
 }

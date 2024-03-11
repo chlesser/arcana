@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 5323685827342282159}
   - component: {fileID: 4371069750333151975}
   - component: {fileID: 2951078938743566284}
+  - component: {fileID: 3731630818314239092}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -238,6 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
+  HandManager: {fileID: 0}
 --- !u!114 &2951078938743566284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +252,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f6bdb2da5a573449bc6d19b160e565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &3731630818314239092
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3842170880469002836}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 351840ca266543b439445ce562e9c834, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5589009897548022383
 GameObject:
   m_ObjectHideFlags: 0
