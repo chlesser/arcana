@@ -10,12 +10,15 @@ public class Enemy : MonoBehaviour
     private int attack;
     BasicEnemy basicEnemy;
     public GameManager GameManager;
+    int firstTimes = 0;
 
     public Enemy() {
         maxHealth = 5;
+        attack = 0;
     }
     public Enemy(int h) {
         maxHealth = h;
+        attack = 0;
     }
     public Enemy(int h, int p) {
         maxHealth = h;
@@ -29,7 +32,7 @@ public class Enemy : MonoBehaviour
     }
     public void setAttack(int p) {
         
-        if(attack > p && attack != null) {StartCoroutine(purpleFade(0.1f));}
+        if(firstTimes > 1) {StartCoroutine(purpleFade(0.1f));} else {firstTimes++;}
         if(p <= 1) {
             attack = 1;
         }
