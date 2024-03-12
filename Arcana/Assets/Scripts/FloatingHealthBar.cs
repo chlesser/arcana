@@ -12,6 +12,9 @@ public class FloatingHealthBar : MonoBehaviour
 
     public void UpdateHealthBar(int health, int maxHealth)
     {
+        if(slider == null){
+            slider = this.gameObject.GetComponent<Slider>();
+        }
         slider.value = (float)health / (float)maxHealth;
     }
     void Start()
@@ -25,6 +28,9 @@ public class FloatingHealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(camera == null){
+            camera = Camera.main;
+        }
         transform.rotation = camera.transform.rotation;
         transform.position = target.position + offset;
     }

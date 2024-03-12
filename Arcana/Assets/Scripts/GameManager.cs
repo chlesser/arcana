@@ -11,9 +11,11 @@ public class GameManager : MonoBehaviour
     Player player;
     public List<List<int>> storedDeck;
     public bool first = true;
+    int currSceneID = 0;
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
+        player.gameObject.SetActive(false);
         DontDestroyOnLoad(this.gameObject);
     }
     public void save(List<List<int>> deck) {
@@ -21,9 +23,10 @@ public class GameManager : MonoBehaviour
     }
     public void Lost() {
         SceneManager.LoadScene("Loss");
+        Destroy(player.gameObject);
     }
     public void nextNode() {
-        enemyHealth += 2;
+        enemyHealth += 1;
         if(alternating == 0) {
             enemydamage += 0;
             alternating = 1;
@@ -32,27 +35,54 @@ public class GameManager : MonoBehaviour
             alternating = 0;
         }
     }
-    void onSceneLoaded() {
+    public void battle(GameObject fool) {
+        Destroy(fool);
+        SceneManager.LoadScene("BattleScene");
+    }
+    public void map() {
+        SceneManager.LoadScene("MapScene");
+    }
+    void OnSceneLoaded () {
+        Debug.Log("SceneLoaded");
         if (SceneManager.GetActiveScene().name == "BattleScene") {
-            first = false;
-            this.gameObject.GetComponentInChildren<DeckManager>().load(storedDeck);
-            this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            this.gameObject.transform.GetChild(1).gameObject.SetActive(true);
-            this.gameObject.transform.GetChild(2).gameObject.SetActive(true);
-            player.transform.parent.gameObject.SetActive(true);
-            GameObject bastard = (GameObject)Instantiate(Resources.Load("Enemies/Enemy"));
+            //lock and load
+            player.gameObject.SetActive(true);
+            GameObject bastard = (GameObject)Instantiate(Resources.Load("Enemies/Enemy"), new Vector3(6, 0, 0), Quaternion.identity);
+            putThemBack();
+            //enemy and player
             bastard.GetComponent<Enemy>().setMaxHealth((int)enemyHealth);
             bastard.GetComponent<Enemy>().setAttack((int)enemydamage);
             bastard.transform.position = new Vector3(6, 0, 0);
-        } else {
-            this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-            this.gameObject.transform.GetChild(1).gameObject.SetActive(false);
-            this.gameObject.transform.GetChild(2).gameObject.SetActive(false);
-            player.transform.parent.gameObject.SetActive(false);
+        } else if (SceneManager.GetActiveScene().name == "Loss") {
+            player.gameObject.SetActive(false);
+        } 
+        else {
+            player.gameObject.SetActive(false);
         }
     }
     public void battleWin() {
-        this.gameObject.transform.GetComponentInChildren<DeckManager>().store();
+        for(int i = 0; i < this.transform.GetChild(1).transform.childCount; i++) {
+            Destroy(this.transform.GetChild(1).transform.GetChild(i).gameObject);
+        }
+        player.healToFull();
+        this.gameObject.transform.GetComponentInChildren<DeckManager>().d.store();
         SceneManager.LoadScene("MapScene");
+    }
+    void putThemBack() {
+        GameObject currDeck = (GameObject)Instantiate(Resources.Load("Managers/DeckManager"), new Vector3(0, 0, 0), Quaternion.identity, this.transform);
+        currDeck.transform.SetSiblingIndex(0);
+        StartCoroutine(handDelay());
+    }
+    void Update() {
+        if (currSceneID != SceneManager.GetActiveScene().buildIndex) {
+            Debug.Log(SceneManager.GetActiveScene().name);
+            currSceneID = SceneManager.GetActiveScene().buildIndex;
+            OnSceneLoaded();
+        }
+    }
+    IEnumerator handDelay() {
+        yield return new WaitForSeconds(0.05f);
+        GameObject currHand = (GameObject)Instantiate(Resources.Load("Managers/HandManager"), new Vector3(0, -4, 0), Quaternion.identity, this.transform);
+        currHand.transform.SetSiblingIndex(1);
     }
 }

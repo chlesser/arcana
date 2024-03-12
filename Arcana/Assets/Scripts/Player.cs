@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     GameManager gameManager;
 
     public Player() {
-        maxHealth = 2;
+        maxHealth = 10;
     }
     public Player(int h) {
         maxHealth = h;
@@ -47,6 +47,10 @@ public class Player : MonoBehaviour
         if (currentHealth > maxHealth) {
             maxHealth = currentHealth;
         }
+        healthBar.UpdateHealthBar(currentHealth, maxHealth);
+    }
+    public void healToFull() {
+        currentHealth = maxHealth;
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
     }
     public void die() {

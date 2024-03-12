@@ -54,6 +54,9 @@ public class DeckManager : MonoBehaviour
         public void playCard(Card c, HandManager H) {
             int i = hand.IndexOf(c);
             hand[i].effect(e, p);
+            if(hand.Count == 0) {
+                return;
+            }
             hand[i].playSound();
             discard.Add(new Card(c));
             hand[i].setPower(0);
@@ -106,6 +109,7 @@ public class DeckManager : MonoBehaviour
         }
         public void store() {
             List<List<int>> temp = new List<List<int>>();
+            gameEnd();
             foreach(Card c in cards) {
                 List<int> t = new List<int>();
                 t.Add(c.getPower());
@@ -115,6 +119,7 @@ public class DeckManager : MonoBehaviour
             GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().save(temp);
         }
         public void load(List<List<int>> temp) {
+            cards.Clear();
             foreach(List<int> t in temp) {
                 Card c = new Card(t[0], t[1]);
                 cards.Add(c);
@@ -184,21 +189,31 @@ public class DeckManager : MonoBehaviour
         }
     }
     void Awake() {
-        HandManager = this.transform.parent.GetComponentInChildren<HandManager>();
+        
         //Change to a list of enemies
-        d.setEnemy(GameObject.FindGameObjectsWithTag("Enemy")[0].GetComponent<Enemy>());
+        d.setEnemy(GameObject.FindGameObjectWithTag("Enemy").GetComponent<Enemy>());
         d.setPlayer(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());
         //this section is temporary while card drawing is random
+        if(this.transform.parent.GetComponent<GameManager>().first) {
+            drawDeck();
+            this.transform.parent.GetComponent<GameManager>().first = false;
+        }
+        else {
+            d.load(this.transform.parent.GetComponent<GameManager>().storedDeck);
+            StartCoroutine(handDraw());
+        }
+    }
+    void drawDeck() {
         var rand = new System.Random();
-
         for(int i = 0; i < deckSize; i++) {
             Card c = new Card(rand.Next(1, 10), rand.Next(1, 5));
             d.addCard(c);
         }
         StartCoroutine(handDraw());
-        
     }
     IEnumerator handDraw() {
+        yield return new WaitForSeconds(0.1f);
+        HandManager = this.transform.parent.GetComponentInChildren<HandManager>();
         for(int i = 0; i < handSize; i++) {
             d.drawCard(HandManager, handSize);
             yield return new WaitForSeconds(1f);
@@ -207,7 +222,7 @@ public class DeckManager : MonoBehaviour
         HandManager.finishedInitial = true;
     }
     void Update() {
-        if (SceneManager.GetActiveScene().name == "BattleScene") {
+        if (SceneManager.GetActiveScene().name != "BattleScene") {
             Destroy(this.gameObject);
         }
     }

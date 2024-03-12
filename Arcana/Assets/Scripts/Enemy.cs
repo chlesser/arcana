@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     private int currentHealth;
     private int attack;
     BasicEnemy basicEnemy;
-    public HandManager HandManager;
+    public GameManager GameManager;
 
     public Enemy() {
         maxHealth = 5;
@@ -28,16 +28,28 @@ public class Enemy : MonoBehaviour
         return maxHealth;
     }
     public void setAttack(int p) {
-        attack = p;
+        
+        if(attack > p && attack != null) {StartCoroutine(purpleFade(0.1f));}
+        if(p <= 1) {
+            attack = 1;
+        }
+        else {
+            attack = p;
+        }
     }
     public int getAttack() {
         return attack;
     }
     public void setMaxHealth(int h) {
         maxHealth = h;
+        currentHealth = maxHealth;
+        healthBar.UpdateHealthBar(currentHealth, maxHealth);
     }
     public void takeDamage(int d) {
         currentHealth -= d;
+        if(currentHealth <= 0) {
+            defeated();
+        }
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
         StartCoroutine(redFade(0.1f));
     }
@@ -63,8 +75,8 @@ public class Enemy : MonoBehaviour
         currentHealth = maxHealth;
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
         basicEnemy = this.gameObject.GetComponent<BasicEnemy>();
-        HandManager = GameObject.FindGameObjectWithTag("GameController").transform.GetComponentInChildren<HandManager>();
-        HandManager.setEnemy(this.gameObject.GetComponent<Enemy>());
+        GameManager = GameObject.FindGameObjectWithTag("GameController").transform.GetComponentInChildren<GameManager>();
+        StartCoroutine(waitHandOff());
     }
     public void takeTurn() {
         basicEnemy.play();
@@ -88,6 +100,19 @@ public class Enemy : MonoBehaviour
         }
     }
     IEnumerator purpleFade(float time) {
-        yield return new WaitForSeconds(time);
+        for(int i = 0; i < 5; i++) {
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 1, 1);
+            yield return new WaitForSeconds(time);
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            yield return new WaitForSeconds(time);
+        }
+    }
+    void defeated() {
+        GameManager.battleWin();
+        Destroy(this.gameObject);
+    }
+    IEnumerator waitHandOff() {
+        yield return new WaitForSeconds(0.2f);
+        GameManager.GetComponentInChildren<HandManager>().setEnemy(this.gameObject.GetComponent<Enemy>());
     }
 }

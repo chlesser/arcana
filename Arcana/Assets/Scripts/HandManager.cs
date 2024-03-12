@@ -37,6 +37,11 @@ public class HandManager : MonoBehaviour
         return cardNum;
     }
     public void addToHand(DeckManager.Card c) {
+        if (enemy != null) {
+            if(enemy.getHealth() <= 0) {
+                return;
+            }
+        }
         if(finishedInitial) {
             DeckManager.d.replaceCardWithLatest(cardNum);
         }
@@ -123,7 +128,7 @@ public class HandManager : MonoBehaviour
         Debug.Log("Cards can be clicked");
     }
     void Update() {
-        if (SceneManager.GetActiveScene().name == "BattleScene") {
+        if (SceneManager.GetActiveScene().name != "BattleScene") {
             Destroy(this.gameObject);
         }
     }
