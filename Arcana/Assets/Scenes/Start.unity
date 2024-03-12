@@ -922,8 +922,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.7264151, g: 0.5321395, b: 0.24328054, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.6037736, g: 0.43926173, b: 0.19081523, a: 1}
+    m_PressedColor: {r: 0.31132078, g: 0.24964403, b: 0.15712889, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -1208,6 +1208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1685348105}
   - component: {fileID: 1685348104}
+  - component: {fileID: 1685348106}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -1244,6 +1245,18 @@ Transform:
   - {fileID: 1909054024}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1685348106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685348103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5922dcd03000dcb44818fe7847f3dfbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1891740033
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,11 +12,13 @@ public class GameManager : MonoBehaviour
     public List<List<int>> storedDeck;
     public bool first = true;
     int currSceneID = 0;
+    public Dictionary<int, int> nodes = new Dictionary<int, int>();
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         player.gameObject.SetActive(false);
         DontDestroyOnLoad(this.gameObject);
+        nodes.Add(0, 1);
     }
     public void save(List<List<int>> deck) {
         storedDeck = deck;
@@ -24,6 +26,14 @@ public class GameManager : MonoBehaviour
     public void Lost() {
         SceneManager.LoadScene("Loss");
         Destroy(player.gameObject);
+    }
+    public int addNode(int id) {
+        if (nodes.ContainsKey(id)) {
+            return nodes[id];
+        } else {
+            nodes.Add(id, 0);
+            return 0;
+        }
     }
     public void nextNode() {
         enemyHealth += 1;
@@ -35,8 +45,9 @@ public class GameManager : MonoBehaviour
             alternating = 0;
         }
     }
-    public void battle(GameObject fool) {
-        Destroy(fool);
+    public void battle(int id) {
+        nodes[id] = 2;
+        this.gameObject.transform.GetComponentInChildren<nodeEnabler>().updateNodes(id);
         SceneManager.LoadScene("BattleScene");
     }
     public void map() {

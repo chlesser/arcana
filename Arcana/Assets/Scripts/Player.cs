@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     private int maxHealth;
     private int currentHealth;
     private int attack;
+    private int originalAttack;
     GameManager gameManager;
 
     public Player() {
@@ -69,5 +70,8 @@ public class Player : MonoBehaviour
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
         DontDestroyOnLoad(this.gameObject);
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+    void OnEnable() {
+        attack = 1;
     }
 }
