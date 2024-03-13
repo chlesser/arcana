@@ -5,9 +5,22 @@ using UnityEngine;
 public class nodeEnabler : MonoBehaviour
 {
     GameManager gameManager;
+    List<int> nodeRewards = new List<int>();
+    int currNode;
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        nodeRewards.Add(42);
+        nodeRewards.Add(41);
+        nodeRewards.Add(34);
+        nodeRewards.Add(33);
+        nodeRewards.Add(52);
+        nodeRewards.Add(51);
+        nodeRewards.Add(44);
+        nodeRewards.Add(43);
+        nodeRewards.Add(62);
+        nodeRewards.Add(61);
+        currNode = 0;
     }
     public void updateNodes(int nodeID) {
         if(nodeID == 0) {
@@ -40,11 +53,14 @@ public class nodeEnabler : MonoBehaviour
             updateIfLocked(10);
             updateIfLocked(7);
         }
+        currNode = nodeID;
     }
     public void updateIfLocked(int nodeID) {
         if(gameManager.nodes[nodeID] == 0) {
             gameManager.nodes[nodeID] = 1;
         }
     }
-
+    public int getNodeReward() {
+        return nodeRewards[currNode];
+    }
 }

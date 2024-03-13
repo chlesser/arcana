@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class DeckManager : MonoBehaviour
 {
-    public int deckSize = 7;
+    public int deckSize = 0;
     public int handSize = 5;
     HandManager HandManager;
     public class Deck{
@@ -71,14 +71,12 @@ public class DeckManager : MonoBehaviour
         }
         public bool handCheck(int n) {
             if(n > hand.Count - 1) {
-                Debug.Log("Out of range");
                 return true;
             }
             if(hand[n].getType() == 0) {
                 //this slot is empty
                 return false;
             }
-            Debug.Log("Card is not empty");
             return true;
         }
         public int getHandSize() {
@@ -121,9 +119,15 @@ public class DeckManager : MonoBehaviour
         public void load(List<List<int>> temp) {
             cards.Clear();
             foreach(List<int> t in temp) {
-                Card c = new Card(t[0], t[1]);
-                cards.Add(c);
+                if(t[0] != 0) {
+                    Card c = new Card(t[0], t[1]);
+                    cards.Add(c);
+                    Debug.Log(c);
+                }
             }
+        }
+        public int getDeckSize() {
+            return cards.Count + hand.Count + discard.Count;
         }
     }
     public Deck d = new Deck();
@@ -136,6 +140,11 @@ public class DeckManager : MonoBehaviour
             power = p;
             type = t;
             sound = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();
+        }
+        public Card() {
+            power = 15;
+            type = 15;
+            sound = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();;
         }
         public Card(int p, int t, AudioSource s) {
             power = p;
@@ -179,11 +188,11 @@ public class DeckManager : MonoBehaviour
                 Debug.Log("hit");
             }
             else if(type == 3) {
-                e.setAttack(e.getAttack() - (power/2) + 1);
+                e.setAttack(e.getAttack() - power);
                 Debug.Log("debuff");
             }
             else if(type == 4){
-                p.setAttack(p.getAttack() + (power/2) + 1);
+                p.setAttack(p.getAttack() + power);
                 Debug.Log("buff");
             } 
         }
@@ -200,15 +209,33 @@ public class DeckManager : MonoBehaviour
         }
         else {
             d.load(this.transform.parent.GetComponent<GameManager>().storedDeck);
+            deckSize = d.getDeckSize();
             StartCoroutine(handDraw());
         }
     }
     void drawDeck() {
-        var rand = new System.Random();
-        for(int i = 0; i < deckSize; i++) {
-            Card c = new Card(rand.Next(1, 10), rand.Next(1, 5));
-            d.addCard(c);
-        }
+        deckSize += 10;
+        Card c = new Card(1, 2);
+        d.addCard(c);
+        c = new Card(2, 2);
+        d.addCard(c);
+        c = new Card(3, 2);
+        d.addCard(c);
+        c = new Card(1, 1);
+        d.addCard(c);
+        c = new Card(2, 1);
+        d.addCard(c);
+        c = new Card(3, 1);
+        d.addCard(c);
+        c = new Card(1, 3);
+        d.addCard(c);
+        c = new Card(2, 3);
+        d.addCard(c);
+        c = new Card(1, 4);
+        d.addCard(c);
+        c = new Card(2, 4);
+        d.addCard(c);
+        Debug.Log(d);
         StartCoroutine(handDraw());
     }
     IEnumerator handDraw() {

@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Card
   - Audio
+  - WinScreen
   layers:
   - Default
   - TransparentFX

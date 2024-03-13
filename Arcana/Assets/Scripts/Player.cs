@@ -72,6 +72,6 @@ public class Player : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     void OnEnable() {
-        attack = 1;
+        attack = 0;
     }
 }

@@ -113,19 +113,24 @@ public class HandManager : MonoBehaviour
     }
     public void TurnEnd() {
         cardsCanBeClicked = false;
+        
         StartCoroutine(waitASec(1f));
         
     }
     IEnumerator waitASec(float time) {
-        yield return new WaitForSeconds(time);
-        enemy.animationIsPlaying();
-        enemy.playAttackAnimation();
-        yield return new WaitForSeconds(time / 2f);
-        enemy.takeTurn();
-        yield return new WaitForSeconds(time / 2f);
-        enemy.animationIsNotPlaying();
-        cardsCanBeClicked = true;
-        Debug.Log("Cards can be clicked");
+            yield return new WaitForSeconds(time);
+            if(enemy == null) {
+                yield break;
+            }
+            enemy.animationIsPlaying();
+            enemy.playAttackAnimation();
+            yield return new WaitForSeconds(time / 2f);
+            enemy.takeTurn();
+            yield return new WaitForSeconds(time / 2f);
+            enemy.animationIsNotPlaying();
+            cardsCanBeClicked = true;
+            Debug.Log("Cards can be clicked");
+        
     }
     void Update() {
         if (SceneManager.GetActiveScene().name != "BattleScene") {
