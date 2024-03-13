@@ -6,7 +6,7 @@ public class nodeEnabler : MonoBehaviour
 {
     GameManager gameManager;
     List<int> nodeRewards = new List<int>();
-    int currNode;
+    public int currNode;
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -20,6 +20,7 @@ public class nodeEnabler : MonoBehaviour
         nodeRewards.Add(43);
         nodeRewards.Add(62);
         nodeRewards.Add(61);
+        nodeRewards.Add(99);
         currNode = 0;
     }
     public void updateNodes(int nodeID) {

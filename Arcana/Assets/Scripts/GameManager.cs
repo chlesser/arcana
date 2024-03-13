@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public bool first = true;
     int currSceneID = 0;
     public Dictionary<int, int> nodes = new Dictionary<int, int>();
+    public GameObject backs;
+    public bool rewardScreen = false;
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
@@ -61,17 +63,33 @@ public class GameManager : MonoBehaviour
             player.gameObject.SetActive(true);
             GameObject bastard = (GameObject)Instantiate(Resources.Load("Enemies/Enemy"), new Vector3(6, 0, 0), Quaternion.identity);
             putThemBack();
+            if (this.gameObject.GetComponent<nodeEnabler>().currNode >= 6) {
+                //activate final background & deactivate basic background
+                backs.transform.GetChild(0).gameObject.SetActive(false);
+                backs.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color((float)this.gameObject.GetComponent<nodeEnabler>().currNode / 10 - 0.2f, (float)this.gameObject.GetComponent<nodeEnabler>().currNode / 10 - 0.2f, (float)this.gameObject.GetComponent<nodeEnabler>().currNode / 10 - 0.2f, 1);
+                backs.transform.GetChild(1).gameObject.SetActive(true);
+            } else {
+                //activate basic background & deactivate final background
+                backs.transform.GetChild(0).gameObject.SetActive(true);
+                backs.transform.GetChild(1).gameObject.SetActive(false);
+            }
             //enemy and player
             bastard.GetComponent<Enemy>().setMaxHealth((int)enemyHealth);
             bastard.GetComponent<Enemy>().setAttack((int)enemydamage);
             bastard.transform.position = new Vector3(6, 0, 0);
         } else if (SceneManager.GetActiveScene().name == "Loss") {
             player.gameObject.SetActive(false);
+            backs.transform.GetChild(0).gameObject.SetActive(false);
+            backs.transform.GetChild(1).gameObject.SetActive(false);
         } else if (SceneManager.GetActiveScene().name == "Start") {
             player.gameObject.SetActive(false);
+            backs.transform.GetChild(0).gameObject.SetActive(false);
+            backs.transform.GetChild(1).gameObject.SetActive(false);
         }
         else {
             player.gameObject.SetActive(false);
+            backs.transform.GetChild(0).gameObject.SetActive(false);
+            backs.transform.GetChild(1).gameObject.SetActive(false);
             if (nodes[10] == 2) {
                 SceneManager.LoadScene("Win");
             }
@@ -104,18 +122,22 @@ public class GameManager : MonoBehaviour
         List<int> newCard = nodeParse();
         Debug.Log("New Card: " + newCard[0] + " " + newCard[1]);
         GameObject winUI = GameObject.FindGameObjectWithTag("WinScreen");
-        winUI.GetComponentInChildren<TMP_Text>().text = "Your reward";
+        winUI.GetComponentInChildren<TMP_Text>().text = "Your Reward";
         winUI.GetComponentInChildren<Renderer>().sortingLayerID = SortingLayer.NameToID("UI");
         GameObject reward = (GameObject)Instantiate(Resources.Load("Cards/" + typeTranslate(newCard[1])), new Vector3(0, 0, 0), Quaternion.identity);
         reward.GetComponentInChildren<TMP_Text>().text = newCard[0].ToString();
-        yield return new WaitForSeconds(2f);
-        Destroy(reward);
-        winUI.GetComponentInChildren<Renderer>().sortingLayerID = SortingLayer.NameToID("Default");
-        player.healToFull();
-        this.gameObject.transform.GetComponentInChildren<DeckManager>().deckSize += 1;
-        this.gameObject.transform.GetComponentInChildren<DeckManager>().d.store();
-        storedDeck.Add(newCard);
-        SceneManager.LoadScene("MapScene");
+        //how long the end screen is for
+        rewardScreen = true;
+        while(rewardScreen) {
+            yield return new WaitForSeconds(0.1f);
+        }
+            Destroy(reward);
+            winUI.GetComponentInChildren<Renderer>().sortingLayerID = SortingLayer.NameToID("Default");
+            player.healToFull();
+            this.gameObject.transform.GetComponentInChildren<DeckManager>().deckSize += 1;
+            this.gameObject.transform.GetComponentInChildren<DeckManager>().d.store();
+            storedDeck.Add(newCard);
+            SceneManager.LoadScene("MapScene");
     }
     List<int> nodeParse() {
         int temp = this.gameObject.transform.GetComponentInChildren<nodeEnabler>().getNodeReward();
@@ -141,5 +163,11 @@ public class GameManager : MonoBehaviour
         else {
             return "Star";
         }
+    }
+    public void holdOn() {
+        StartCoroutine(hold());
+    }
+    IEnumerator hold() {
+        yield return new WaitForSeconds(1f);
     }
 }

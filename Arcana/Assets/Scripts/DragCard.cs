@@ -45,6 +45,9 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(DeckManager.transform.parent.GetComponent<GameManager>().rewardScreen == true) {
+            DeckManager.transform.parent.GetComponent<GameManager>().rewardScreen = false;
+        } else {
         if(!this.transform.parent.GetComponent<HandManager>().cardsCanBeClicked) {
             return;
         }
@@ -79,6 +82,7 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
             number.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
             image.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
             clicked = false;
+        }
         }
     }
 

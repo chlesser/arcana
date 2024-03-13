@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
     public void heal(int h) {
         currentHealth += h;
         if (currentHealth > maxHealth) {
-            maxHealth = currentHealth;
+            currentHealth = maxHealth;
         }
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
     }

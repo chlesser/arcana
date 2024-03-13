@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: -1690832999
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bd1b0264c50fcea49ad2b160aef0359e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8b1575f367aeb8b4590812d1a0931aad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -232,7 +232,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0735, y: 0.1617}
+  m_AnchoredPosition: {x: 0.095, y: 0.18}
   m_SizeDelta: {x: 0.16512, y: 0.14217}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4576641708485111378
@@ -324,8 +324,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 1.5
-  m_fontSizeBase: 1.5
+  m_fontSize: 1
+  m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
