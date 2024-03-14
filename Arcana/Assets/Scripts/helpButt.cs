@@ -15,14 +15,14 @@ public class helpButt : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
         if(panelIsUp) {
             page1.SetActive(false);
-            //page2.SetActive(false);
+            page2.SetActive(false);
             if(gameManager.gameObject.transform.GetComponentInChildren<HandManager>() != null) {
                 gameManager.gameObject.transform.GetComponentInChildren<HandManager>().cardsCanBeClicked = false;
             }
             panelIsUp = false;
         } else {
             page1.SetActive(true);
-            //page2.SetActive(true);
+            page2.SetActive(false);
             panelIsUp = true;
             if(gameManager.gameObject.transform.GetComponentInChildren<HandManager>() != null) {
                 gameManager.gameObject.transform.GetComponentInChildren<HandManager>().cardsCanBeClicked = false;
