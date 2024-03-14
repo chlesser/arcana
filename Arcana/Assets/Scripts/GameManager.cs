@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<int, int> nodes = new Dictionary<int, int>();
     public GameObject backs;
     public bool rewardScreen = false;
+    public bool nodesClickable = true;
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();

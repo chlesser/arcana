@@ -62,3 +62,6 @@ TagManager:
   - name: Grabbed
     uniqueID: 718038535
     locked: 0
+  - name: Help
+    uniqueID: 3708952953
+    locked: 0

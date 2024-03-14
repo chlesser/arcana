@@ -2,14 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class helpButt : MonoBehaviour
+public class helpButt : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    public GameObject helpCover;
+    public GameObject page1;
+    public GameObject page2;
+    bool panelIsUp = false;
+    GameManager gameManager;
+    public void OnPointerDown(UnityEngine.EventSystems.PointerEventData eventData)
+    {
+        if(panelIsUp) {
+            page1.SetActive(false);
+            //page2.SetActive(false);
+            if(gameManager.gameObject.transform.GetComponentInChildren<HandManager>() != null) {
+                gameManager.gameObject.transform.GetComponentInChildren<HandManager>().cardsCanBeClicked = false;
+            }
+            panelIsUp = false;
+        } else {
+            page1.SetActive(true);
+            //page2.SetActive(true);
+            panelIsUp = true;
+            if(gameManager.gameObject.transform.GetComponentInChildren<HandManager>() != null) {
+                gameManager.gameObject.transform.GetComponentInChildren<HandManager>().cardsCanBeClicked = false;
+            }
+        }
+    }
+    public void OnPointerEnter(UnityEngine.EventSystems.PointerEventData eventData)
+    {
+        helpCover.GetComponent<Image>().color = new Color(0.2f, 0.2f, 0.3f, 0.5f);
+    }
+    public void OnPointerExit(UnityEngine.EventSystems.PointerEventData eventData)
+    {
+        helpCover.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+    }
     public void off() {
-        this.gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        this.gameObject.SetActive(false);
     }
     public void on() {
-        this.gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        this.gameObject.SetActive(true);
     }
     public void fadeOut() {
         StartCoroutine(fade(false, 1));
@@ -33,5 +65,7 @@ public class helpButt : MonoBehaviour
     }
     void Awake() {
         off();
+        helpCover = GameObject.Find("HelpCover");
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 }

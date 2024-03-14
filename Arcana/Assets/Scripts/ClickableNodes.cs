@@ -30,7 +30,7 @@ public class ClickableNodes : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("Clicked: " + this.gameObject.name);
-        if(state != 1) {return;}
+        if(state != 1 || !gameManager.nodesClickable) {return;}
         gameManager.nextNode();
         gameManager.battle(nodeID);
     }

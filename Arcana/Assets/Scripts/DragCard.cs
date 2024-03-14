@@ -17,7 +17,6 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
     //Dealing with hand continuation... c is the card that is in the list hand
     public DeckManager.Card c;
     DeckManager DeckManager;
-
     Collider2D playAreaCollider;
     Collider2D thisCollider;
 
@@ -48,7 +47,7 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
         if(DeckManager.transform.parent.GetComponent<GameManager>().rewardScreen == true) {
             DeckManager.transform.parent.GetComponent<GameManager>().rewardScreen = false;
         } else {
-        if(!this.transform.parent.GetComponent<HandManager>().cardsCanBeClicked) {
+        if(!this.transform.parent.GetComponent<HandManager>().cardsCanBeClicked){
             return;
         }
         else if(!clicked && !played) {
