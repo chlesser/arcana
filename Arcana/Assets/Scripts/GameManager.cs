@@ -77,22 +77,18 @@ public class GameManager : MonoBehaviour
             bastard.GetComponent<Enemy>().setMaxHealth((int)enemyHealth);
             bastard.GetComponent<Enemy>().setAttack((int)enemydamage);
             bastard.transform.position = new Vector3(6, 0, 0);
-        } else if (SceneManager.GetActiveScene().name == "Loss") {
-            player.gameObject.SetActive(false);
-            backs.transform.GetChild(0).gameObject.SetActive(false);
-            backs.transform.GetChild(1).gameObject.SetActive(false);
-        } else if (SceneManager.GetActiveScene().name == "Start") {
-            player.gameObject.SetActive(false);
-            backs.transform.GetChild(0).gameObject.SetActive(false);
-            backs.transform.GetChild(1).gameObject.SetActive(false);
-        }
-        else {
+        } else if (SceneManager.GetActiveScene().name == "MapScene") {
             player.gameObject.SetActive(false);
             backs.transform.GetChild(0).gameObject.SetActive(false);
             backs.transform.GetChild(1).gameObject.SetActive(false);
             if (nodes[10] == 2) {
                 SceneManager.LoadScene("Win");
             }
+        }
+        else {
+            player.gameObject.SetActive(false);
+            backs.transform.GetChild(0).gameObject.SetActive(false);
+            backs.transform.GetChild(1).gameObject.SetActive(false);
         }
     }
     public void battleWin() {
@@ -122,7 +118,7 @@ public class GameManager : MonoBehaviour
         List<int> newCard = nodeParse();
         Debug.Log("New Card: " + newCard[0] + " " + newCard[1]);
         GameObject winUI = GameObject.FindGameObjectWithTag("WinScreen");
-        winUI.GetComponentInChildren<TMP_Text>().text = "Your Reward";
+        winUI.GetComponentInChildren<TMP_Text>().text = "Reward";
         winUI.GetComponentInChildren<Renderer>().sortingLayerID = SortingLayer.NameToID("UI");
         GameObject reward = (GameObject)Instantiate(Resources.Load("Cards/" + typeTranslate(newCard[1])), new Vector3(0, 0, 0), Quaternion.identity);
         reward.GetComponentInChildren<TMP_Text>().text = newCard[0].ToString();
@@ -169,5 +165,33 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator hold() {
         yield return new WaitForSeconds(1f);
+    }
+    public void fadeOut() {
+        StartCoroutine(fade(false, 1));
+    }
+    public void fadeIn() {
+        StartCoroutine(fade(true, 1));
+    }
+    
+    IEnumerator fade(bool goingIn, float time) {
+        if(goingIn) {
+            for(float i = 0; i < 1; i += Time.deltaTime / time) {
+                foreach(GameObject child in UnityEngine.Object.FindObjectsOfType<GameObject>()) {
+                    if(child.transform.GetComponent<SpriteRenderer>() != null && child.activeInHierarchy) {
+                        child.transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, i);
+                    }
+                }
+                yield return null;
+            }
+        } else {
+            for(float i = 1; i > 0; i -= Time.deltaTime / time) {
+                foreach(GameObject child in UnityEngine.Object.FindObjectsOfType<GameObject>()) {
+                    if(child.transform.GetComponent<SpriteRenderer>() != null && child.activeInHierarchy) {
+                        child.transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, i);
+                    }
+                }
+                yield return null;
+            }
+        }
     }
 }
