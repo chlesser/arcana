@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class DeckManager : MonoBehaviour
 {
     public int deckSize = 0;
     public int handSize = 5;
     HandManager HandManager;
+    public bool currClick = false;
     public class Deck{
         private List<Card> cards = new List<Card>();
         private List<Card> hand = new List<Card>();
@@ -239,11 +241,15 @@ public class DeckManager : MonoBehaviour
         StartCoroutine(handDraw());
     }
     IEnumerator handDraw() {
+        currClick = false;
         yield return new WaitForSeconds(0.1f);
         HandManager = this.transform.parent.GetComponentInChildren<HandManager>();
         for(int i = 0; i < handSize; i++) {
             d.drawCard(HandManager, handSize);
-            yield return new WaitForSeconds(1f);
+            for(int o = 0; o < 10; o++) {
+                if(!currClick) { yield return new WaitForSeconds(0.1f); }
+                Debug.Log("waiting");
+            }
         }
         HandManager.cardsCanBeClicked = true;
         HandManager.finishedInitial = true;
@@ -251,6 +257,9 @@ public class DeckManager : MonoBehaviour
     void Update() {
         if (SceneManager.GetActiveScene().name != "BattleScene") {
             Destroy(this.gameObject);
+        }
+        if (Input.GetMouseButtonDown(0)) {
+            currClick = true;
         }
     }
 }

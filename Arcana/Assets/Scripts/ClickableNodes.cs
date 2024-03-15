@@ -30,7 +30,7 @@ public class ClickableNodes : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("Clicked: " + this.gameObject.name);
-        if(state != 1 || !gameManager.nodesClickable) {return;}
+        if(!(state == 1 && gameManager.nodesClickable)) {return;}
         gameManager.nextNode();
         gameManager.battle(nodeID);
     }
@@ -58,7 +58,7 @@ public class ClickableNodes : MonoBehaviour, IPointerDownHandler
     void OnMouseExit()
     {
         if(state == 1) {
-        GetComponent<SpriteRenderer>().color = startcolor;
+            GetComponent<SpriteRenderer>().color = startcolor;
         }
     }
     // end of temp solutions

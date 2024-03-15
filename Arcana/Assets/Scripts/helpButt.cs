@@ -17,7 +17,7 @@ public class helpButt : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             page1.SetActive(false);
             page2.SetActive(false);
             if(gameManager.gameObject.transform.GetComponentInChildren<HandManager>() != null) {
-                gameManager.gameObject.transform.GetComponentInChildren<HandManager>().cardsCanBeClicked = false;
+                gameManager.gameObject.transform.GetComponentInChildren<HandManager>().cardsCanBeClicked = true;
             }
             panelIsUp = false;
         } else {
@@ -25,6 +25,7 @@ public class helpButt : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             page2.SetActive(false);
             panelIsUp = true;
             if(gameManager.gameObject.transform.GetComponentInChildren<HandManager>() != null) {
+                Debug.Log("Setting cards to clickable");
                 gameManager.gameObject.transform.GetComponentInChildren<HandManager>().cardsCanBeClicked = false;
             }
         }
@@ -32,10 +33,12 @@ public class helpButt : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public void OnPointerEnter(UnityEngine.EventSystems.PointerEventData eventData)
     {
         helpCover.GetComponent<Image>().color = new Color(0.2f, 0.2f, 0.3f, 0.5f);
+        helpCover.SetActive(true);
     }
     public void OnPointerExit(UnityEngine.EventSystems.PointerEventData eventData)
     {
         helpCover.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        helpCover.SetActive(false);
     }
     public void off() {
         this.gameObject.SetActive(false);
@@ -67,5 +70,6 @@ public class helpButt : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         off();
         helpCover = GameObject.Find("HelpCover");
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        helpCover.SetActive(false);
     }
 }

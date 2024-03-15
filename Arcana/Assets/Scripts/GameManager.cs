@@ -62,7 +62,11 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "BattleScene") {
             //lock and load
             player.gameObject.SetActive(true);
-            GameObject bastard = (GameObject)Instantiate(Resources.Load("Enemies/Enemy"), new Vector3(6, 0, 0), Quaternion.identity);
+            var rand = new System.Random();
+            int i = rand.Next(2);
+            GameObject bastard;
+            if(i == 1) { bastard = (GameObject)Instantiate(Resources.Load("Enemies/Enemy"), new Vector3(6, 0, 0), Quaternion.identity); } else
+            { bastard = (GameObject)Instantiate(Resources.Load("Enemies/Enemy 1"), new Vector3(6, -1.5f, 0), Quaternion.identity); }
             putThemBack();
             if (this.gameObject.GetComponent<nodeEnabler>().currNode >= 6) {
                 //activate final background & deactivate basic background

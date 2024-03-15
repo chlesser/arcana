@@ -16,13 +16,16 @@ public class FloatingHealthBar : MonoBehaviour
             slider = this.gameObject.GetComponent<Slider>();
         }
         slider.value = (float)health / (float)maxHealth;
+        if((float)health <= 0) {
+            this.gameObject.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        }
     }
     void Start()
     {
         slider = this.gameObject.GetComponent<Slider>();
         camera = Camera.main;
         target = this.transform.parent.parent.transform;
-        offset = new Vector3(0, -1.5f, 0);
+        offset = new Vector3(0, 2f, 0);
     }
 
     // Update is called once per frame

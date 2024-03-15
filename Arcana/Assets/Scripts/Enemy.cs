@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
     public void takeDamage(int d) {
         currentHealth -= d;
         if(currentHealth <= 0) {
-            defeated();
+            StartCoroutine(defeated());
         }
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
         StartCoroutine(redFade(0.1f));
@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
         basicEnemy = this.gameObject.GetComponent<BasicEnemy>();
         GameManager = GameObject.FindGameObjectWithTag("GameController").transform.GetComponentInChildren<GameManager>();
-        StartCoroutine(waitHandOff());
+        StartCoroutine(waitHandOff(1f));
     }
     public void takeTurn() {
         basicEnemy.play();
@@ -110,12 +110,13 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(time);
         }
     }
-    void defeated() {
+    IEnumerator defeated() {
         GameManager.battleWin();
+        yield return new WaitForSeconds(0.5f);
         Destroy(this.gameObject);
     }
-    IEnumerator waitHandOff() {
-        yield return new WaitForSeconds(0.2f);
+    IEnumerator waitHandOff(float t) {
+        yield return new WaitForSeconds(t);
         GameManager.GetComponentInChildren<HandManager>().setEnemy(this.gameObject.GetComponent<Enemy>());
     }
 }
