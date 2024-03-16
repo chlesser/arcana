@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private int attack;
     private int originalAttack;
     GameManager gameManager;
+    int firstTimes = 0;
 
     public Player() {
         maxHealth = 10;
@@ -21,7 +22,9 @@ public class Player : MonoBehaviour
         return currentHealth;
     }
     public void setAttack(int p) {
+        //if(firstTimes >= 1) {StartCoroutine(yellowFade(1f));} else {firstTimes++;}
         attack = p;
+        StartCoroutine(yellowFade(1f));
     }
     public int getAttack() {
         return attack;
@@ -45,6 +48,7 @@ public class Player : MonoBehaviour
     }
     public void heal(int h) {
         currentHealth += h;
+        StartCoroutine(greenFade(1f));
         if (currentHealth > maxHealth) {
             currentHealth = maxHealth;
         }
@@ -73,5 +77,39 @@ public class Player : MonoBehaviour
     }
     void OnEnable() {
         attack = 0;
+    }
+    IEnumerator greenFade(float time) {
+        time = time / 2;
+        for(float i = 1; i > 0; i -= Time.deltaTime / time) {
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(i, 1, i, 1);
+                yield return null;
+        }
+        for(float i = 0; i < 1; i += Time.deltaTime / time) {
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(i, 1, i, 1);
+                yield return null;
+        }
+        /*for(int i = 0; i < 5; i++) {
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+            yield return new WaitForSeconds(time);
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            yield return new WaitForSeconds(time);
+        } */
+    }
+    IEnumerator yellowFade(float time) {
+        time = time / 2;
+        for(float i = 1; i > 0; i -= Time.deltaTime / time) {
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, i, 1);
+                yield return null;
+        }
+        for(float i = 0; i < 1; i += Time.deltaTime / time) {
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, i, 1);
+                yield return null;
+        }
+        /*for(int i = 0; i < 5; i++) {
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+            yield return new WaitForSeconds(time);
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            yield return new WaitForSeconds(time);
+        } */
     }
 }
