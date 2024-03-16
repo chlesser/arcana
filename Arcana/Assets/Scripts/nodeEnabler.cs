@@ -25,10 +25,8 @@ public class nodeEnabler : MonoBehaviour
     }
     public void updateNodes(int nodeID) {
         if(nodeID == 0) {
-            //temporary to speed things up
             updateIfLocked(1);
             updateIfLocked(2);
-            updateIfLocked(10);
         } else if(nodeID == 1) {
             updateIfLocked(3);
         } else if(nodeID == 2) {
