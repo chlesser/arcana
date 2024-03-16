@@ -11,7 +11,6 @@ public class Enemy : MonoBehaviour
     BasicEnemy basicEnemy;
     public GameManager GameManager;
     int firstTimes = 0;
-
     public Enemy() {
         maxHealth = 5;
         attack = 0;
@@ -85,8 +84,12 @@ public class Enemy : MonoBehaviour
         basicEnemy.play();
     }
     public void playAttackAnimation() {
-        Debug.Log("There");
         this.gameObject.GetComponent<Animator>().Play("BasicEnemy");
+        if(this.gameObject.name == "Enemy 1(Clone)") {
+        Debug.Log("Enemy 1(Clone)");
+            GameObject bastard = (GameObject)Instantiate(Resources.Load("Enemies/Web"), new Vector3(4.5f, -0.75f, 0), Quaternion.identity);
+            StartCoroutine(goKill(bastard));
+        }
     }
     public void animationIsPlaying() {
         this.gameObject.GetComponent<Animator>().SetBool("Playing", true);
@@ -118,5 +121,14 @@ public class Enemy : MonoBehaviour
     IEnumerator waitHandOff(float t) {
         yield return new WaitForSeconds(t);
         GameManager.GetComponentInChildren<HandManager>().setEnemy(this.gameObject.GetComponent<Enemy>());
+    }
+    IEnumerator goKill(GameObject g) {
+        float timeFrame = 0.005f;
+        yield return new WaitForSeconds(0.2f);
+        for(float i = 4.5f; i > -5.5f; i -= 0.2f) {
+            g.transform.position = new Vector3(i, -0.75f, 0);
+            yield return new WaitForSeconds(timeFrame);
+        }
+        Destroy(g);
     }
 }

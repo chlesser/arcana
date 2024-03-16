@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
             }
             gameManager.Lost();
         }
+        StartCoroutine(redFade(0.1f));
         Debug.Log("takeDamageTaken");
     }
     public void heal(int h) {
@@ -110,5 +111,13 @@ public class Player : MonoBehaviour
             this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
             yield return new WaitForSeconds(time);
         } */
+    }
+    IEnumerator redFade(float time) {
+        for(int i = 0; i < 5; i++) {
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+            yield return new WaitForSeconds(time);
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            yield return new WaitForSeconds(time);
+        }
     }
 }
