@@ -66,8 +66,13 @@ public class GameManager : MonoBehaviour
             var rand = new System.Random();
             int i = rand.Next(2);
             GameObject bastard;
-            if(i == 1) { bastard = (GameObject)Instantiate(Resources.Load("Enemies/Enemy"), new Vector3(6, 0, 0), Quaternion.identity); } else
-            { bastard = (GameObject)Instantiate(Resources.Load("Enemies/Enemy 1"), new Vector3(6, -1.5f, 0), Quaternion.identity); }
+            if(i == 1 && this.gameObject.transform.GetComponentInChildren<nodeEnabler>().currNode != 10) {
+                bastard = (GameObject)Instantiate(Resources.Load("Enemies/Enemy"), new Vector3(6, 0, 0), Quaternion.identity);
+            } else if(this.gameObject.transform.GetComponentInChildren<nodeEnabler>().currNode != 10) {
+                bastard = (GameObject)Instantiate(Resources.Load("Enemies/Enemy 1"), new Vector3(6, -1.5f, 0), Quaternion.identity);
+            } else {
+                bastard = (GameObject)Instantiate(Resources.Load("Enemies/Boss"), new Vector3(6, 0.35f, 0), Quaternion.identity);
+            }
             putThemBack();
             if (this.gameObject.GetComponent<nodeEnabler>().currNode >= 6) {
                 //activate final background & deactivate basic background
@@ -82,6 +87,10 @@ public class GameManager : MonoBehaviour
             //enemy and player
             bastard.GetComponent<Enemy>().setMaxHealth((int)enemyHealth);
             bastard.GetComponent<Enemy>().setAttack((int)enemydamage);
+            if(bastard.name == "Boss(Clone)") {
+                bastard.GetComponent<Enemy>().setMaxHealth(15);
+                bastard.GetComponent<Enemy>().setAttack((2));
+            }
             bastard.transform.position = new Vector3(6, 0, 0);
         } else if (SceneManager.GetActiveScene().name == "MapScene") {
             //audio

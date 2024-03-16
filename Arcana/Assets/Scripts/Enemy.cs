@@ -31,7 +31,15 @@ public class Enemy : MonoBehaviour
     }
     public void setAttack(int p) {
         
-        if(firstTimes > 1) {StartCoroutine(purpleFade(0.1f));} else {firstTimes++;}
+        if(firstTimes > 1 && p < attack && this.gameObject.name != "Boss(Clone)")
+        {StartCoroutine(purpleFade(0.1f));}
+        else if(firstTimes > 2 && p > attack)
+        {StartCoroutine(yellowFade(1f));}
+        else if(firstTimes > 2 && p < attack && this.gameObject.name == "Boss(Clone)")
+        {StartCoroutine(purpleFade(0.1f));}
+        else
+        {firstTimes++;}
+
         if(p <= 1) {
             attack = 1;
         }
@@ -57,6 +65,7 @@ public class Enemy : MonoBehaviour
     }
     public void heal(int h) {
         currentHealth += h;
+        StartCoroutine(greenFade(1f));
         if (currentHealth > maxHealth) {
             currentHealth = maxHealth;
         }
@@ -84,6 +93,12 @@ public class Enemy : MonoBehaviour
         basicEnemy.play();
     }
     public void playAttackAnimation() {
+        if(this.gameObject.name == "Boss(Clone)") {
+            if(basicEnemy.attackNum == 0) {
+                this.gameObject.GetComponent<Animator>().Play("BossAttack");
+            }
+            return;
+        }
         this.gameObject.GetComponent<Animator>().Play("BasicEnemy");
         if(this.gameObject.name == "Enemy 1(Clone)") {
         Debug.Log("Enemy 1(Clone)");
@@ -112,6 +127,40 @@ public class Enemy : MonoBehaviour
             this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
             yield return new WaitForSeconds(time);
         }
+    }
+    IEnumerator greenFade(float time) {
+        time = time / 2;
+        for(float i = 1; i > 0; i -= Time.deltaTime / time) {
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(i, 1, i, 1);
+                yield return null;
+        }
+        for(float i = 0; i < 1; i += Time.deltaTime / time) {
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(i, 1, i, 1);
+                yield return null;
+        }
+        /*for(int i = 0; i < 5; i++) {
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+            yield return new WaitForSeconds(time);
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            yield return new WaitForSeconds(time);
+        } */
+    }
+    IEnumerator yellowFade(float time) {
+        time = time / 2;
+        for(float i = 1; i > 0; i -= Time.deltaTime / time) {
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, i, 1);
+                yield return null;
+        }
+        for(float i = 0; i < 1; i += Time.deltaTime / time) {
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, i, 1);
+                yield return null;
+        }
+        /*for(int i = 0; i < 5; i++) {
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+            yield return new WaitForSeconds(time);
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            yield return new WaitForSeconds(time);
+        } */
     }
     IEnumerator defeated() {
         GameManager.battleWin();

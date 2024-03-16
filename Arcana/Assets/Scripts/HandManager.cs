@@ -124,9 +124,18 @@ public class HandManager : MonoBehaviour
             }
             enemy.animationIsPlaying();
             enemy.playAttackAnimation();
-            yield return new WaitForSeconds(time / 4f);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().damageSound(enemy.gameObject.name);
-            yield return new WaitForSeconds(time / 4f);
+            if((enemy.basicEnemy.attackNum == 0)) {
+                yield return new WaitForSeconds(time / 4f);
+            }
+            //Sounds
+            if(enemy.gameObject.name != "Boss(Clone)") {
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().damageSound(enemy.gameObject.name);
+            } else {
+                enemy.basicEnemy.bossSound();
+            }
+            if(enemy.basicEnemy.attackNum == 0) {
+                yield return new WaitForSeconds(time / 4f);
+            }
             enemy.takeTurn();
             if(enemy.name == "Enemy 1(Clone)") {
             } else if (enemy.name == "Enemy(Clone)") {
