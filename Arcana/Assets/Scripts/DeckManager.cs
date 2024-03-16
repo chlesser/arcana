@@ -141,12 +141,12 @@ public class DeckManager : MonoBehaviour
         public Card(int p, int t) {
             power = p;
             type = t;
-            sound = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();
+            setSound();
         }
         public Card() {
             power = 15;
             type = 15;
-            sound = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();;
+            setSound();
         }
         public Card(int p, int t, AudioSource s) {
             power = p;
@@ -177,8 +177,16 @@ public class DeckManager : MonoBehaviour
             //play sound
             sound.Play();
         }
-        public void setSound(AudioSource s) {
-            sound = s;
+        public void setSound() {
+            if(type == 1) {
+                sound = GameObject.FindGameObjectWithTag("Audio").transform.GetChild(3).GetComponent<AudioSource>();
+            } else if(type == 2) {
+                sound = GameObject.FindGameObjectWithTag("Audio").transform.GetChild(1).GetComponent<AudioSource>();
+            } else if(type == 3) {
+                sound = GameObject.FindGameObjectWithTag("Audio").transform.GetChild(4).GetComponent<AudioSource>();
+            } else {
+                sound = GameObject.FindGameObjectWithTag("Audio").transform.GetChild(2).GetComponent<AudioSource>();
+            }
         }  
         public void effect(Enemy e, Player p) {
             if(type == 1) {

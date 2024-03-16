@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviour
         GameObject winUI = GameObject.FindGameObjectWithTag("WinScreen");
         winUI.GetComponentInChildren<TMP_Text>().text = "Reward";
         winUI.GetComponentInChildren<Renderer>().sortingLayerID = SortingLayer.NameToID("UI");
+        //GameObject.FindGameObjectWithTag("Audio").transform.GetChild(0).GetComponent<AudioSource>().Play();
         GameObject reward = (GameObject)Instantiate(Resources.Load("Cards/" + typeTranslate(newCard[1])), new Vector3(0, 0, 0), Quaternion.identity);
         reward.GetComponentInChildren<TMP_Text>().text = newCard[0].ToString();
         //how long the end screen is for
@@ -138,6 +139,7 @@ public class GameManager : MonoBehaviour
             this.gameObject.transform.GetComponentInChildren<DeckManager>().deckSize += 1;
             this.gameObject.transform.GetComponentInChildren<DeckManager>().d.store();
             storedDeck.Add(newCard);
+            GameObject.FindGameObjectWithTag("Audio").transform.GetChild(0).GetComponent<AudioSource>().Play();
             SceneManager.LoadScene("MapScene");
     }
     List<int> nodeParse() {
