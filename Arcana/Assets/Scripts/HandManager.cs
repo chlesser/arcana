@@ -124,9 +124,14 @@ public class HandManager : MonoBehaviour
             }
             enemy.animationIsPlaying();
             enemy.playAttackAnimation();
-            yield return new WaitForSeconds(time / 2f);
+            yield return new WaitForSeconds(time / 4f);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().damageSound(enemy.gameObject.name);
+            yield return new WaitForSeconds(time / 4f);
             enemy.takeTurn();
-            yield return new WaitForSeconds(time / 2f);
+            if(enemy.name == "Enemy 1(Clone)") {
+            } else if (enemy.name == "Enemy(Clone)") {
+                yield return new WaitForSeconds(time / 2f);
+            }
             enemy.animationIsNotPlaying();
             cardsCanBeClicked = true;
             Debug.Log("Cards can be clicked");

@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
     }
     public void Lost() {
         SceneManager.LoadScene("Loss");
-        Destroy(player.gameObject);
     }
     public int addNode(int id) {
         if (nodes.ContainsKey(id)) {

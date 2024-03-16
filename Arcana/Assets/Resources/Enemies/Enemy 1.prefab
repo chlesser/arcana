@@ -239,6 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
+  basicEnemy: {fileID: 2951078938743566284}
   GameManager: {fileID: 0}
 --- !u!114 &2951078938743566284
 MonoBehaviour:

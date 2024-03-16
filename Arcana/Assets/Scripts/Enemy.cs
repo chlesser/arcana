@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     private int maxHealth;
     private int currentHealth;
     private int attack;
-    BasicEnemy basicEnemy;
+    public BasicEnemy basicEnemy;
     public GameManager GameManager;
     int firstTimes = 0;
     public Enemy() {

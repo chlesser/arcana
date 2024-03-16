@@ -43,8 +43,20 @@ public class Player : MonoBehaviour
             }
             gameManager.Lost();
         }
+        //damageSound(d);
         StartCoroutine(redFade(0.1f));
         Debug.Log("takeDamageTaken");
+    }
+    public void damageSound(string name) {
+        if(name == "Enemy(Clone)") {
+            this.gameObject.transform.GetChild(1).transform.GetChild(0).GetComponent<AudioSource>().Play();
+        }
+        else if(name == "Enemy 1(Clone)") {
+            this.gameObject.transform.GetChild(1).transform.GetChild(1).GetComponent<AudioSource>().Play();
+        }
+        else {
+            this.gameObject.transform.GetChild(1).transform.GetChild(2).GetComponent<AudioSource>().Play();
+        }
     }
     public void heal(int h) {
         currentHealth += h;
