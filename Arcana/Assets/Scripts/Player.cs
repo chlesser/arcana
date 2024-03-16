@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     private int attack;
     private int originalAttack;
     GameManager gameManager;
-    int firstTimes = 0;
 
     public Player() {
         maxHealth = 10;
