@@ -96,12 +96,13 @@ public class Enemy : MonoBehaviour
         if(this.gameObject.name == "Boss(Clone)") {
             if(basicEnemy.attackNum == 0) {
                 this.gameObject.GetComponent<Animator>().Play("BossAttack");
+                StartCoroutine(fireball());
             }
             return;
         }
         this.gameObject.GetComponent<Animator>().Play("BasicEnemy");
         if(this.gameObject.name == "Enemy 1(Clone)") {
-        Debug.Log("Enemy 1(Clone)");
+            Debug.Log("Enemy 1(Clone)");
             GameObject bastard = (GameObject)Instantiate(Resources.Load("Enemies/Web"), new Vector3(4.5f, -0.75f, 0), Quaternion.identity);
             StartCoroutine(goKill(bastard));
         }
@@ -179,5 +180,14 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(timeFrame);
         }
         Destroy(g);
+    }
+    IEnumerator fireball() {
+        yield return new WaitForSeconds(0.5f);
+        GameObject fireball = (GameObject)Instantiate(Resources.Load("Enemies/Fireball"), new Vector3(5f, 1f, 0), Quaternion.identity);
+        for(float i = 5f; i > -6f; i -= 0.5f) {
+            fireball.transform.position = new Vector3(i, 0.12f * i, 0);
+            yield return new WaitForSeconds(0.005f);
+        }
+        Destroy(fireball);
     }
 }

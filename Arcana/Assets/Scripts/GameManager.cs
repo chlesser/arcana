@@ -60,7 +60,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("SceneLoaded");
         if (SceneManager.GetActiveScene().name == "BattleScene") {
             //Audio!
-            GameObject.FindGameObjectWithTag("Audio").GetComponent<MusicSelect>().battleScene();
+            if(this.gameObject.transform.GetComponentInChildren<nodeEnabler>().currNode != 10) {
+                GameObject.FindGameObjectWithTag("Audio").GetComponent<MusicSelect>().battleScene();
+            } else {
+                GameObject.FindGameObjectWithTag("Audio").GetComponent<MusicSelect>().bossScene();
+            }
             //lock and load
             player.gameObject.SetActive(true);
             var rand = new System.Random();
