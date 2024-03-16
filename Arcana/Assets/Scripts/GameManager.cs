@@ -60,6 +60,8 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded () {
         Debug.Log("SceneLoaded");
         if (SceneManager.GetActiveScene().name == "BattleScene") {
+            //Audio!
+            GameObject.FindGameObjectWithTag("Audio").GetComponent<MusicSelect>().battleScene();
             //lock and load
             player.gameObject.SetActive(true);
             var rand = new System.Random();
@@ -83,6 +85,9 @@ public class GameManager : MonoBehaviour
             bastard.GetComponent<Enemy>().setAttack((int)enemydamage);
             bastard.transform.position = new Vector3(6, 0, 0);
         } else if (SceneManager.GetActiveScene().name == "MapScene") {
+            //audio
+            GameObject.FindGameObjectWithTag("Audio").GetComponent<MusicSelect>().mapScene();
+            //setup
             player.gameObject.SetActive(false);
             backs.transform.GetChild(0).gameObject.SetActive(false);
             backs.transform.GetChild(1).gameObject.SetActive(false);
