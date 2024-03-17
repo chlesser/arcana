@@ -17,8 +17,8 @@ public class BasicEnemy : MonoBehaviour
             enemy.setAttack(1);
         }
         else {
-            enemy.setMaxHealth(15);
-            enemy.setAttack(2);
+            enemy.setMaxHealth(30);
+            enemy.setAttack(4);
         }
     }
     public void play()
@@ -31,7 +31,7 @@ public class BasicEnemy : MonoBehaviour
                 enemy.heal(5);
                 attackNum++;
             } else if(attackNum == 2) {
-                enemy.setAttack(enemy.getAttack() + 2);
+                enemy.setAttack(enemy.getAttack() + 3);
                 attackNum = 0;
             }
         }

@@ -92,8 +92,8 @@ public class GameManager : MonoBehaviour
             bastard.GetComponent<Enemy>().setMaxHealth((int)enemyHealth);
             bastard.GetComponent<Enemy>().setAttack((int)enemydamage);
             if(bastard.name == "Boss(Clone)") {
-                bastard.GetComponent<Enemy>().setMaxHealth(15);
-                bastard.GetComponent<Enemy>().setAttack((2));
+                bastard.GetComponent<Enemy>().setMaxHealth(30);
+                bastard.GetComponent<Enemy>().setAttack((4));
             }
             bastard.transform.position = new Vector3(6, 0, 0);
         } else if (SceneManager.GetActiveScene().name == "MapScene") {
