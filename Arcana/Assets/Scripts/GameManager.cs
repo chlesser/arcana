@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,9 +18,17 @@ public class GameManager : MonoBehaviour
     public GameObject backs;
     public bool rewardScreen = false;
     public bool nodesClickable = true;
-    void Start()
+    GameObject canvas;
+    GameObject helpCover;
+    GameObject helpButt;
+    GameObject optionsMenu;
+    bool options = false;
+    void Awake()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
+        canvas = GameObject.Find("Canvas");
+        helpCover = canvas.transform.GetChild(0).gameObject;
+        helpButt = canvas.transform.GetChild(4).gameObject;
         player.gameObject.SetActive(false);
         DontDestroyOnLoad(this.gameObject);
         nodes.Add(0, 1);
@@ -129,6 +138,20 @@ public class GameManager : MonoBehaviour
             Debug.Log(SceneManager.GetActiveScene().name);
             currSceneID = SceneManager.GetActiveScene().buildIndex;
             OnSceneLoaded();
+        }
+        if (Input.GetKeyDown("escape")) {
+            helpCover.GetComponent<Image>().color = new Color(0.2f, 0.2f, 0.3f, 0.75f);
+            if(options) {
+                options = false;
+                helpCover.gameObject.SetActive(false);
+                helpButt.gameObject.SetActive(true);
+                optionsMenu.gameObject.SetActive(false);
+            } else {
+                options = true;
+                helpCover.gameObject.SetActive(true);
+                helpButt.gameObject.SetActive(false);
+                optionsMenu.gameObject.SetActive(true);
+            }
         }
     }
     IEnumerator handDelay() {
