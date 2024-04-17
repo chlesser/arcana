@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class nodeEnabler : MonoBehaviour
 {
     GameManager gameManager;
     List<int> nodeRewards = new List<int>();
+    List<(int, int)> nodePaths = new List<(int, int)>();
     public int currNode;
     void Start()
     {
@@ -22,8 +24,23 @@ public class nodeEnabler : MonoBehaviour
         nodeRewards.Add(61);
         nodeRewards.Add(99);
         currNode = 0;
+        nodePaths.Add((0, 1));
+        nodePaths.Add((0, 2));
+        nodePaths.Add((1, 3));
+        nodePaths.Add((2, 3));
+        nodePaths.Add((2, 4));
+        nodePaths.Add((3, 5));
+        nodePaths.Add((4, 5));
+        nodePaths.Add((5, 6));
+        nodePaths.Add((5, 7));
+        nodePaths.Add((6, 8));
+        nodePaths.Add((7, 8));
+        nodePaths.Add((7, 9));
+        nodePaths.Add((8, 10));
+        nodePaths.Add((9, 10));
     }
     public void updateNodes(int nodeID) {
+        /*Archaic
         if(nodeID == 0) {
             updateIfLocked(1);
             updateIfLocked(2);
@@ -53,8 +70,18 @@ public class nodeEnabler : MonoBehaviour
         } else if (nodeID == 9) {
             updateIfLocked(10);
             updateIfLocked(7);
+        } */
+        foreach ((int, int) entry in nodePaths) {
+            if(entry.Item1 == nodeID) {
+                updateIfLocked(entry.Item2);
+                Debug.Log("Updating node " + entry.Item2);
+            } else if (entry.Item2 == nodeID) {
+                updateIfLocked(entry.Item1);
+                Debug.Log("Updating node " + entry.Item1);
+            }
         }
         currNode = nodeID;
+
     }
     public void updateIfLocked(int nodeID) {
         if(gameManager.nodes[nodeID] == 0) {
