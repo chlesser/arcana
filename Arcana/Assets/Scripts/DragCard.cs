@@ -55,6 +55,7 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
             OriginalPosition = transform.position;
             OriginalOrder = image.GetComponent<Renderer>().sortingOrder;
             clicked = true;
+            this.gameObject.transform.localScale = new Vector3(1.2f * this.gameObject.transform.localScale.x, 1.2f * this.gameObject.transform.localScale.y, 1.2f * this.gameObject.transform.localScale.z);
             image.GetComponent<Renderer>().sortingOrder = this.gameObject.transform.parent.GetComponent<HandManager>().getCardNum() * 2 + 2;
             number.GetComponent<Renderer>().sortingOrder = this.gameObject.transform.parent.GetComponent<HandManager>().getCardNum() * 2 + 3;
             number.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Grabbed");
@@ -67,6 +68,7 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
             number.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
             image.GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID("Cards");
             clicked = false;
+            this.gameObject.transform.localScale = new Vector3(this.gameObject.transform.localScale.x / 1.2f, this.gameObject.transform.localScale.y / 1.2f, this.gameObject.transform.localScale.z / 1.2f);
             this.gameObject.transform.position = GameObject.FindGameObjectWithTag("PlayArea").transform.position;
             played = true;
         } else if (!clicked && played && !Input.GetMouseButtonDown(1)) {
@@ -74,7 +76,8 @@ public class DragCard : MonoBehaviour, IPointerDownHandler
             endTurn();
         } else {
             // Card has been clicked and is not playable
-            played = false;
+            if(played == false) this.gameObject.transform.localScale = new Vector3(this.gameObject.transform.localScale.x / 1.2f, this.gameObject.transform.localScale.y / 1.2f, this.gameObject.transform.localScale.z / 1.2f);
+            else played = false;
             this.gameObject.transform.position = OriginalPosition;
             image.GetComponent<Renderer>().sortingOrder = OriginalOrder;
             number.GetComponent<Renderer>().sortingOrder = OriginalOrder + 1;
